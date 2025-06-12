@@ -9,7 +9,7 @@ interface NavbarProps {
   title?: string;
 }
 
-type ValidRoute = "/" | "/liste-cave" | "/ajouter-bouteille";
+type ValidRoute = "/" | "/liste-cave" | "/ajouter-bouteille" | "/notes";
 
 const Navbar: React.FC<NavbarProps> = ({ title }) => {
   const router = useRouter();
@@ -22,6 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
     { route: "/", icon: "home-outline", label: "Accueil" },
     { route: "/ajouter-bouteille", icon: "add-circle-outline", label: "Ajouter" },
     { route: "/liste-cave", icon: "wine-outline", label: "Ma Cave" },
+    { route: "/notes", icon: "star-outline", label: "Notes" }, // Nouveau bouton Notes
   ];
 
   return (

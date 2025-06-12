@@ -1,6 +1,4 @@
-// components/AnecdoteVin.tsx
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View } from "react-native";
 import { Text } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,12 +6,8 @@ import anecdotesVin from "../data/anecdotes";
 import styles from "../styles/AnecdoteVinStyles";
 
 const AnecdoteVin: React.FC = () => {
-  const [anecdote, setAnecdote] = useState("");
-
-  useEffect(() => {
-    const index = Math.floor(Math.random() * anecdotesVin.length);
-    setAnecdote(anecdotesVin[index]);
-  }, []);
+  const randomIndex = Math.floor(Math.random() * anecdotesVin.length);
+  const anecdote = anecdotesVin[randomIndex];
 
   return (
     <View style={styles.container}>

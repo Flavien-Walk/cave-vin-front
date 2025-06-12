@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
   },
+
+  
 });
 
 export default styles;
