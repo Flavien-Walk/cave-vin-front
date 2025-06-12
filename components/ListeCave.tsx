@@ -1,3 +1,5 @@
+// components/ListeCave.tsx
+
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { ScrollView, Alert as RNAlert } from "react-native";
 import {
@@ -11,7 +13,25 @@ import styles from "../styles/ListeCaveStyles";
 const API_URL = "https://cave-vin-back.onrender.com/api/bottles";
 const BOTTLE_TYPES = ["Bouteille", "Demi-bouteille", "Magnum"];
 const WINE_COLORS = ["Rouge", "Blanc", "Rosé"];
-const CAVES = ["Cave 1", "Cave 2", "Cave 3", "Cave 4"];
+const COUNTRIES = [
+  "France", "Italie", "Espagne", "Argentine", "Australie", "Chili",
+  "Afrique du Sud", "États-Unis", "Nouvelle-Zélande", "Allemagne", "Portugal",
+  "Suisse", "Grèce", "Autres pays...",
+];
+const REGIONS = [
+  "Bordeaux", "Bourgogne", "Champagne", "Vallée du Rhône", "Alsace",
+  "Languedoc", "Provence", "Loire", "Jura", "Corse", "Sud-Ouest", "Autre",
+];
+const APPELLATIONS = [
+  "Saint-Julien", "Margaux", "Pauillac", "Châteauneuf-du-Pape",
+  "Sancerre", "Côte-Rôtie", "Volnay", "Pommard", "Autre",
+];
+const CAVES = [
+  { id: 1, name: "Cave 1", emplacements: ["Haut Derrière", "Haut Devant", "1ère Clayette", "2ème Clayette", "3ème Clayette", "Milieu Derrière", "Milieu Devant", "Bas Derrière", "Bas Devant", "Très Bas"] },
+  { id: 2, name: "Cave 2", emplacements: ["Haut Derrière", "Haut Devant", "1ère Clayette", "2ème Clayette", "3ème Clayette", "Milieu Derrière", "Milieu Devant", "Bas Derrière", "Bas Devant", "Très Bas"] },
+  { id: 3, name: "Cave 3", emplacements: ["Haut Derrière", "Haut Devant", "1ère Clayette", "2ème Clayette", "3ème Clayette", "Milieu Derrière", "Milieu Devant", "Bas Derrière", "Bas Devant", "Très Bas"] },
+  { id: 4, name: "Cave 4", emplacements: ["Haut Derrière", "Haut Devant", "Milieu Haut Derrière", "Milieu Haut Devant", "Milieu Bas Derrière", "Milieu Bas Devant", "Bas Derrière", "Bas Devant", "Très Bas"] },
+];
 
 const initialFilters = {
   searchText: "",
@@ -22,7 +42,6 @@ const initialFilters = {
   consumeFilter: "all"
 };
 type FilterKey = keyof typeof initialFilters;
-
 const ListeCave: React.FC = () => {
   const [bottles, setBottles] = useState<any[]>([]);
   const [filters, setFilters] = useState<typeof initialFilters>(initialFilters);
@@ -36,8 +55,10 @@ const ListeCave: React.FC = () => {
 
   const normalize = useCallback((text: string) =>
     text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""), []);
+
   const isUrgent = useCallback((b: any) =>
     b.consommerAvant && parseInt(b.consommerAvant) <= new Date().getFullYear(), []);
+
   const years = useMemo(() =>
     [...new Set(bottles.map(b => b.annee))].filter(Boolean).sort(), [bottles]);
 
@@ -104,6 +125,7 @@ const ListeCave: React.FC = () => {
     fetchBottles();
   }, []);
 
+  const selectedCave = CAVES.find(c => c.name === currentBottle?.cave);
   return (
     <NativeBaseProvider>
       <Box style={styles.container}>
@@ -124,25 +146,33 @@ const ListeCave: React.FC = () => {
               <Select
                 key={key}
                 selectedValue={filters[key as FilterKey]}
-                placeholder={key.replace("selected", "")}
+                placeholder={
+                  key === "selectedType" ? "Type" :
+                  key === "selectedColor" ? "Couleur" :
+                  key === "selectedCave" ? "Cave" : "Année"
+                }
                 borderWidth={1}
                 borderColor="#ccc"
                 borderRadius="xl"
                 px={3}
                 py={2}
                 bg="#fff"
-                style={{ borderColor: "transparent", backgroundColor: "#fff" }}
-                _item={{
-                  _pressed: { bg: "#f3e8d3" },
-                  _text: { color: "#6e3b3b" }
-                }}
+                _item={{ _pressed: { bg: "#f3e8d3" }, _text: { color: "#6e3b3b" } }}
                 onValueChange={(value) => updateFilter(key as FilterKey, value)}
               >
-                {(key === "selectedType" ? BOTTLE_TYPES : key === "selectedColor" ? WINE_COLORS : key === "selectedCave" ? CAVES : years).map(value => (
+                {(key === "selectedType"
+                  ? BOTTLE_TYPES
+                  : key === "selectedColor"
+                  ? WINE_COLORS
+                  : key === "selectedCave"
+                  ? CAVES.map(c => c.name)
+                  : years
+                ).map((value) => (
                   <Select.Item key={value} label={value} value={value} />
                 ))}
               </Select>
             ))}
+
             <Select
               selectedValue={filters.consumeFilter}
               placeholder="À consommer"
@@ -152,23 +182,30 @@ const ListeCave: React.FC = () => {
               px={3}
               py={2}
               bg="#fff"
-              style={{ borderColor: "transparent", backgroundColor: "#fff" }}
-              _item={{
-                _pressed: { bg: "#f3e8d3" },
-                _text: { color: "#6e3b3b" }
-              }}
-              onValueChange={v => updateFilter("consumeFilter", v)}
+              _item={{ _pressed: { bg: "#f3e8d3" }, _text: { color: "#6e3b3b" } }}
+              onValueChange={(v) => updateFilter("consumeFilter", v)}
             >
               <Select.Item label="Toutes" value="all" />
               <Select.Item label="À consommer rapidement" value="urgent" />
             </Select>
+
             <HStack space={2}>
               <Button flex={1} onPress={resetFilters} colorScheme="gray">Réinitialiser</Button>
-              <Button flex={1} onPress={fetchBottles} colorScheme="green">Actualiser</Button>
+              <Button
+            flex={1}
+            bg="#6e3b3b"
+            _pressed={{ bg: "#a05252" }}
+            _text={{ color: "#fffaf0", fontWeight: "bold" }}
+             onPress={fetchBottles}
+            >
+            Actualiser
+            </Button>
+
             </HStack>
           </VStack>
 
           {error && <Text style={{ color: "red", textAlign: "center", marginBottom: 8 }}>{error}</Text>}
+
           {isLoading ? (
             <Text style={{ textAlign: "center", color: "#999" }}>Chargement...</Text>
           ) : filteredBottles.length === 0 ? (
@@ -194,7 +231,9 @@ const ListeCave: React.FC = () => {
                       <Text style={styles.details}><Icon as={Ionicons} name="cube-outline" mr={1} />{bottle.quantite} bouteille{bottle.quantite > 1 ? "s" : ""} {bottle.prixAchat ? ` • ${bottle.prixAchat} €` : ""}</Text>
                       <Text style={styles.details}><Icon as={Ionicons} name="location-outline" mr={1} />{bottle.cave} - {bottle.emplacement}</Text>
                       {bottle.consommerAvant && (
-                        <Text style={[styles.details, isUrgent(bottle) && { color: "red" }]}> <Icon as={Ionicons} name="alarm-outline" mr={1} />À consommer avant : {bottle.consommerAvant}</Text>
+                        <Text style={[styles.details, isUrgent(bottle) && { color: "red" }]}>
+                          <Icon as={Ionicons} name="alarm-outline" mr={1} />À consommer avant : {bottle.consommerAvant}
+                        </Text>
                       )}
                     </VStack>
                     <VStack space={2}>
@@ -208,37 +247,162 @@ const ListeCave: React.FC = () => {
             </VStack>
           )}
 
-          {/* MODAL */}
-          <Modal isOpen={showModal} onClose={closeModal}>
-            <Modal.Content style={styles.modalContent}>
-              <Modal.CloseButton />
-              <Modal.Header style={styles.modalHeaderBox}>
-                <Text style={styles.modalHeader}>Modifier</Text>
-              </Modal.Header>
-              <Modal.Body>
-                <VStack space={3}>
-                  {["nom", "producteur", "region", "appellation", "annee", "quantite", "pays", "prixAchat", "consommerAvant", "cave", "emplacement"].map(key => (
-                    <FormControl key={key}>
-                      <FormControl.Label>
-                        <Text style={styles.modalLabel}>{key.charAt(0).toUpperCase() + key.slice(1)}</Text>
-                      </FormControl.Label>
-                      <Input
-                        value={currentBottle?.[key] || ""}
-                        onChangeText={text => setCurrentBottle((prev: any) => ({ ...prev, [key]: text }))}
-                        style={styles.modalInput}
-                      />
-                    </FormControl>
-                  ))}
-                </VStack>
-              </Modal.Body>
-              <Modal.Footer style={styles.modalFooter}>
-                <Button.Group space={2}>
-                  <Button style={styles.saveButton} _text={styles.saveButtonText} onPress={saveBottle}>Sauvegarder</Button>
-                  <Button variant="ghost" _text={styles.cancelButtonText} onPress={closeModal}>Annuler</Button>
-                </Button.Group>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
+          {/* MODAL : modification bouteille */}
+<Modal isOpen={showModal} onClose={closeModal}>
+  <Modal.Content bg="#fffaf0" borderRadius="xl">
+    <Modal.CloseButton />
+    <Modal.Header bg="#6e3b3b" borderTopRadius="xl">
+      <Text color="#fffaf0" fontWeight="bold">Modifier la Bouteille</Text>
+    </Modal.Header>
+    <Modal.Body>
+      <VStack space={3}>
+        <Input
+          placeholder="Nom du vin"
+          bg="#fff"
+          borderRadius="xl"
+          value={currentBottle?.nom}
+          onChangeText={t => setCurrentBottle({ ...currentBottle, nom: t })}
+        />
+        <Input
+          placeholder="Producteur"
+          bg="#fff"
+          borderRadius="xl"
+          value={currentBottle?.producteur}
+          onChangeText={t => setCurrentBottle({ ...currentBottle, producteur: t })}
+        />
+        <Select
+          placeholder="Région"
+          bg="#fff"
+          borderRadius="xl"
+          selectedValue={currentBottle?.region}
+          onValueChange={v => setCurrentBottle({ ...currentBottle, region: v })}
+        >
+          {REGIONS.map(r => (
+            <Select.Item key={r} label={r} value={r} _text={{ color: "#6e3b3b" }} />
+          ))}
+        </Select>
+        <Select
+          placeholder="Appellation"
+          bg="#fff"
+          borderRadius="xl"
+          selectedValue={currentBottle?.appellation}
+          onValueChange={v => setCurrentBottle({ ...currentBottle, appellation: v })}
+        >
+          {APPELLATIONS.map(a => (
+            <Select.Item key={a} label={a} value={a} _text={{ color: "#6e3b3b" }} />
+          ))}
+        </Select>
+        <Input
+          placeholder="Année"
+          bg="#fff"
+          borderRadius="xl"
+          keyboardType="numeric"
+          value={currentBottle?.annee}
+          onChangeText={t => setCurrentBottle({ ...currentBottle, annee: t })}
+        />
+        <Input
+          placeholder="Quantité"
+          bg="#fff"
+          borderRadius="xl"
+          keyboardType="numeric"
+          value={currentBottle?.quantite?.toString()}
+          onChangeText={t => setCurrentBottle({ ...currentBottle, quantite: Number(t) })}
+        />
+        <Select
+          placeholder="Type"
+          bg="#fff"
+          borderRadius="xl"
+          selectedValue={currentBottle?.type}
+          onValueChange={v => setCurrentBottle({ ...currentBottle, type: v })}
+        >
+          {BOTTLE_TYPES.map(t => (
+            <Select.Item key={t} label={t} value={t} _text={{ color: "#6e3b3b" }} />
+          ))}
+        </Select>
+        <Select
+          placeholder="Couleur"
+          bg="#fff"
+          borderRadius="xl"
+          selectedValue={currentBottle?.couleur}
+          onValueChange={v => setCurrentBottle({ ...currentBottle, couleur: v })}
+        >
+          {WINE_COLORS.map(c => (
+            <Select.Item key={c} label={c} value={c} _text={{ color: "#6e3b3b" }} />
+          ))}
+        </Select>
+        <Select
+          placeholder="Pays"
+          bg="#fff"
+          borderRadius="xl"
+          selectedValue={currentBottle?.pays}
+          onValueChange={v => setCurrentBottle({ ...currentBottle, pays: v })}
+        >
+          {COUNTRIES.map(c => (
+            <Select.Item key={c} label={c} value={c} _text={{ color: "#6e3b3b" }} />
+          ))}
+        </Select>
+        <Input
+          placeholder="Prix d'achat (€)"
+          bg="#fff"
+          borderRadius="xl"
+          keyboardType="decimal-pad"
+          value={currentBottle?.prixAchat?.toString()}
+          onChangeText={t => setCurrentBottle({ ...currentBottle, prixAchat: parseFloat(t) })}
+        />
+        <Input
+          placeholder="À consommer avant"
+          bg="#fff"
+          borderRadius="xl"
+          value={currentBottle?.consommerAvant}
+          onChangeText={t => setCurrentBottle({ ...currentBottle, consommerAvant: t })}
+        />
+        <Select
+          placeholder="Cave"
+          bg="#fff"
+          borderRadius="xl"
+          selectedValue={CAVES.find(c => c.name === currentBottle?.cave)?.id.toString()}
+          onValueChange={(val) => {
+            const cave = CAVES.find(c => c.id.toString() === val);
+            setCurrentBottle({ ...currentBottle, cave: cave?.name || "", emplacement: "" });
+          }}
+        >
+          {CAVES.map(c => (
+            <Select.Item key={c.id} label={c.name} value={c.id.toString()} _text={{ color: "#6e3b3b" }} />
+          ))}
+        </Select>
+        {selectedCave && (
+          <Select
+            placeholder="Emplacement"
+            bg="#fff"
+            borderRadius="xl"
+            selectedValue={currentBottle?.emplacement}
+            onValueChange={v => setCurrentBottle({ ...currentBottle, emplacement: v })}
+          >
+            {selectedCave.emplacements.map(e => (
+              <Select.Item key={e} label={e} value={e} _text={{ color: "#6e3b3b" }} />
+            ))}
+          </Select>
+        )}
+      </VStack>
+    </Modal.Body>
+    <Modal.Footer bg="#fffaf0" borderBottomRadius="xl">
+      <Button.Group space={2}>
+        <Button
+          bg="#6e3b3b"
+          _pressed={{ bg: "#a05252" }}
+          _text={{ color: "#fffaf0", fontWeight: "bold" }}
+          onPress={saveBottle}
+        >
+          Sauvegarder
+        </Button>
+        <Button variant="ghost" _text={{ color: "#6e3b3b" }} onPress={closeModal}>
+          Annuler
+        </Button>
+      </Button.Group>
+    </Modal.Footer>
+  </Modal.Content>
+</Modal>
+
 
           {/* ALERT DIALOG SUPPRESSION */}
           <AlertDialog
@@ -254,12 +418,8 @@ const ListeCave: React.FC = () => {
               </AlertDialog.Body>
               <AlertDialog.Footer>
                 <Button.Group space={2}>
-                  <Button variant="ghost" colorScheme="coolGray" ref={cancelRef} onPress={() => setShowDeleteAlert(false)}>
-                    Annuler
-                  </Button>
-                  <Button colorScheme="red" onPress={() => { if (bottleToDelete) deleteBottle(bottleToDelete); }}>
-                    Supprimer
-                  </Button>
+                  <Button variant="ghost" ref={cancelRef} onPress={() => setShowDeleteAlert(false)}>Annuler</Button>
+                  <Button colorScheme="red" onPress={() => { if (bottleToDelete) deleteBottle(bottleToDelete); }}>Supprimer</Button>
                 </Button.Group>
               </AlertDialog.Footer>
             </AlertDialog.Content>

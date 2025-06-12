@@ -9,10 +9,10 @@ import {
   NativeBaseProvider,
   HStack,
 } from "native-base";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import Navbar from "../components/Navbar";
 import AnecdoteVin from "../components/AnecdoteVin";
-import styles from "../styles/IndexScreenStyles";
+import styles from "../styles/IndexScreenStyles"; // Ton fichier styles.ts renommé ici
 
 const SecretContent: React.FC = () => {
   const router = useRouter();
@@ -25,31 +25,44 @@ const SecretContent: React.FC = () => {
     iconName,
     title,
     description,
+    locked = false,
   }: {
-    onPress: () => void;
+    onPress?: () => void;
     bgDefault: string;
     bgPressed: string;
     iconAs: any;
     iconName: string;
     title: string;
     description: string;
+    locked?: boolean;
   }) => (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={!locked ? onPress : undefined}>
       {({ pressed }) => (
         <Box
           p={5}
           rounded="2xl"
-          bg={pressed ? bgPressed : bgDefault}
+          bg={pressed && !locked ? bgPressed : bgDefault}
           flexDirection="row"
           alignItems="center"
-          shadow={4}
+          shadow={locked ? 0 : 4}
           mb={4}
+          opacity={locked ? 0.5 : 1}
         >
           <Icon as={iconAs} name={iconName} color="white" size="xl" mr={4} />
           <VStack flexShrink={1}>
-            <Text color="white" fontSize="xl" fontWeight="bold">
-              {title}
-            </Text>
+            <HStack alignItems="center" space={2}>
+              <Text color="white" fontSize="xl" fontWeight="bold">
+                {title}
+              </Text>
+              {locked && (
+                <Icon
+                  as={Ionicons}
+                  name="lock-closed-outline"
+                  color="white"
+                  size="sm"
+                />
+              )}
+            </HStack>
             <Text color="gray.200" fontSize="sm" numberOfLines={2}>
               {description}
             </Text>
@@ -62,12 +75,13 @@ const SecretContent: React.FC = () => {
   return (
     <Box style={styles.container}>
       <Box style={styles.content}>
-        {/* Titre principal */}
-        <Text style={styles.title}>Bienvenue dans votre cave à vin</Text>
-        <Text style={styles.paragraph}>
-          Découvrez des anecdotes, gérez vos bouteilles et explorez vos
-          statistiques 🍷
-        </Text>
+        {/* Bloc de bienvenue stylisé */}
+        <Box style={styles.welcomeBox}>
+          <Text style={styles.welcomeTitle}>Bienvenue dans votre cave à vin</Text>
+          <Text style={styles.welcomeSubtitle}>
+            Gérez, découvrez et savourez votre collection personnelle 🍇
+          </Text>
+        </Box>
 
         {/* Anecdote */}
         <Box mb={6}>
@@ -97,18 +111,17 @@ const SecretContent: React.FC = () => {
           />
 
           <ActionButton
-            onPress={() => router.push({ pathname: "/" })}
-            bgDefault="#3b4a6e"
-            bgPressed="#4b5e8e"
-            iconAs={MaterialIcons}
-            iconName="bar-chart"
+            bgDefault="#525252"
+            bgPressed="#6b6b6b"
+            iconAs={Ionicons}
+            iconName="bar-chart-outline"
             title="Statistiques"
-            description="Analysez votre cave et optimisez vos achats."
+            description="Fonctionnalité en cours de développement"
+            locked={true}
           />
         </VStack>
       </Box>
 
-      {/* Barre de navigation bas */}
       <Navbar />
     </Box>
   );

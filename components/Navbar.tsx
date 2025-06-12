@@ -20,8 +20,8 @@ const Navbar: React.FC<NavbarProps> = ({ title }) => {
     label: string;
   }[] = [
     { route: "/", icon: "home-outline", label: "Accueil" },
-    { route: "/liste-cave", icon: "wine-outline", label: "Ma Cave" },
     { route: "/ajouter-bouteille", icon: "add-circle-outline", label: "Ajouter" },
+    { route: "/liste-cave", icon: "wine-outline", label: "Ma Cave" },
   ];
 
   return (

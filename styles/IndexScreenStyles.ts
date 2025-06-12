@@ -76,6 +76,38 @@ const styles = StyleSheet.create({
   padding: 20,
 },
 
+welcomeBox: {
+  backgroundColor: "#fffaf0",
+  paddingVertical: 20,
+  paddingHorizontal: 16,
+  borderRadius: 20,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 6,
+  elevation: 3,
+  marginBottom: 20,
+  alignItems: "center",
+},
+
+welcomeTitle: {
+  fontSize: 26,
+  fontWeight: "bold",
+  color: "#6e3b3b",
+  textAlign: "center",
+  letterSpacing: 1,
+  textTransform: "uppercase",
+  marginBottom: 6,
+},
+
+welcomeSubtitle: {
+  fontSize: 15,
+  color: "#4b3832",
+  textAlign: "center",
+  fontStyle: "italic",
+},
+
+
 });
 
 export default styles;

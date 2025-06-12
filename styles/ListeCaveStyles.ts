@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
     color: "#6e3b3b",
     fontWeight: "600",
   },
+  label: {
+    fontWeight: "600",
+    fontSize: 14,
+    color: "#6e3b3b",
+  }
 });
 
 export default styles;
