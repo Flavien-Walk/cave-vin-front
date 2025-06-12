@@ -1,5 +1,4 @@
 // styles/ListeCaveStyles.ts
-
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -33,6 +32,61 @@ const styles = StyleSheet.create({
   details: {
     fontSize: 14,
     color: "#555",
+  },
+  modalContent: {
+    backgroundColor: "#fffaf0",
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  modalHeaderBox: {
+    backgroundColor: "#f8f1e4",
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingVertical: 10,
+  },
+  modalHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#6e3b3b",
+    textAlign: "center",
+  },
+  modalLabel: {
+    fontWeight: "600",
+    color: "#6e3b3b",
+    marginBottom: 4,
+  },
+  modalInput: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderColor: "#ccc",
+    borderWidth: 1,
+  },
+  modalFooter: {
+    backgroundColor: "#f8f1e4",
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  saveButton: {
+    backgroundColor: "#6e3b3b",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+  },
+  saveButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  cancelButtonText: {
+    color: "#6e3b3b",
+    fontWeight: "600",
   },
 });
 

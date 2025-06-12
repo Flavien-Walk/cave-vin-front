@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f1e4", // couleur douce type cave à vin
+    backgroundColor: "#f8f1e4", // couleur douce type cave à vin (identique à AjouterBouteilleStyles)
   },
   content: {
     padding: 20,
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 15,
-    color: "#6e3b3b",
+    color: "#6e3b3b", // couleur du titre (identique à AjouterBouteilleStyles)
   },
   paragraph: {
     fontSize: 16,
     textAlign: "center",
-    color: "#4b3832",
+    color: "#4b3832", // couleur du texte (identique à AjouterBouteilleStyles)
     marginBottom: 20,
   },
   section: {
@@ -30,33 +30,34 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#a65f4a",
+    color: "#a65f4a", // couleur légèrement plus vive pour les titres de section
     marginBottom: 10,
   },
   alertBox: {
-    backgroundColor: "#f9e6e1",
+    backgroundColor: "#f9e6e1", // fond clair pour alerte
     padding: 10,
     borderRadius: 10,
   },
   alertText: {
-    color: "#b00020",
+    color: "#b00020", // rouge d’alerte
     fontSize: 14,
   },
   statBox: {
-    backgroundColor: "#e0d4c0",
+    backgroundColor: "#e0d4c0", // fond doux pour statistiques
     padding: 10,
     borderRadius: 10,
   },
   statText: {
     fontSize: 14,
     marginBottom: 5,
+    color: "#4b3832", // cohérent avec le texte standard
   },
   quickAccess: {
     flexDirection: "row",
     justifyContent: "space-around",
   },
   quickButton: {
-    backgroundColor: "#a65f4a",
+    backgroundColor: "#a65f4a", // couleur chaude pour boutons d’accès rapide
     borderRadius: 15,
     padding: 15,
     alignItems: "center",
@@ -68,6 +69,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: "center",
   },
+
+  winePatternBackground: {
+  backgroundColor: "#f8f1e4",
+  flex: 1,
+  padding: 20,
+},
+
 });
 
 export default styles;
