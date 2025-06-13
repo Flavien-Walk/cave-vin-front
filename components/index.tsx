@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
 import {
   Box,
@@ -73,55 +73,59 @@ const SecretContent: React.FC = () => {
   );
 
   return (
-    <Box style={styles.container}>
-      <Box style={styles.content}>
-        {/* Bloc de bienvenue stylisé */}
-        <Box style={styles.welcomeBox}>
-          <Text style={styles.welcomeTitle}>Bienvenue dans votre cave à vin</Text>
-          <Text style={styles.welcomeSubtitle}>
-            Gérez, découvrez et savourez votre collection personnelle 🍇
-          </Text>
+    <Box style={styles.container} flex={1}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }} // Padding pour la navbar
+        showsVerticalScrollIndicator={false}
+      >
+        <Box style={styles.content}>
+          {/* Bloc de bienvenue stylisé */}
+          <Box style={styles.welcomeBox}>
+            <Text style={styles.welcomeTitle}>Bienvenue dans votre cave à vin</Text>
+            <Text style={styles.welcomeSubtitle}>
+              Gérez, découvrez et savourez votre collection personnelle 🍇
+            </Text>
+          </Box>
+
+          {/* Anecdote */}
+          <Box mb={6}>
+            <AnecdoteVin />
+          </Box>
+
+          {/* Boutons actions */}
+          <VStack space={4}>
+            <ActionButton
+              onPress={() => router.push({ pathname: "/liste-cave" })}
+              bgDefault="#6e3b3b"
+              bgPressed="#8e4b4b"
+              iconAs={Ionicons}
+              iconName="wine-outline"
+              title="Ma Cave"
+              description="Visualisez toutes vos bouteilles et gérez vos stocks."
+            />
+
+            <ActionButton
+              onPress={() => router.push({ pathname: "/ajouter-bouteille" })}
+              bgDefault="#4a604a"
+              bgPressed="#5a755a"
+              iconAs={Ionicons}
+              iconName="add-circle-outline"
+              title="Ajouter"
+              description="Ajoutez une nouvelle bouteille à votre collection."
+            />
+
+            <ActionButton
+              bgDefault="#525252"
+              bgPressed="#6b6b6b"
+              iconAs={Ionicons}
+              iconName="bar-chart-outline"
+              title="Statistiques"
+              description="Fonctionnalité en cours de développement"
+              locked={true}
+            />
+          </VStack>
         </Box>
-
-        {/* Anecdote */}
-        <Box mb={6}>
-          <AnecdoteVin />
-        </Box>
-
-        {/* Boutons actions */}
-        <VStack space={4}>
-          <ActionButton
-            onPress={() => router.push({ pathname: "/liste-cave" })}
-            bgDefault="#6e3b3b"
-            bgPressed="#8e4b4b"
-            iconAs={Ionicons}
-            iconName="wine-outline"
-            title="Ma Cave"
-            description="Visualisez toutes vos bouteilles et gérez vos stocks."
-          />
-
-          <ActionButton
-            onPress={() => router.push({ pathname: "/ajouter-bouteille" })}
-            bgDefault="#4a604a"
-            bgPressed="#5a755a"
-            iconAs={Ionicons}
-            iconName="add-circle-outline"
-            title="Ajouter"
-            description="Ajoutez une nouvelle bouteille à votre collection."
-          />
-
-          <ActionButton
-            bgDefault="#525252"
-            bgPressed="#6b6b6b"
-            iconAs={Ionicons}
-            iconName="bar-chart-outline"
-            title="Statistiques"
-            description="Fonctionnalité en cours de développement"
-            locked={true}
-          />
-        </VStack>
-      </Box>
-
+      </ScrollView>
       <Navbar />
     </Box>
   );
