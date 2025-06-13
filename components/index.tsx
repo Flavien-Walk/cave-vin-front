@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import Navbar from "../components/Navbar";
 import AnecdoteVin from "../components/AnecdoteVin";
-import styles from "../styles/IndexScreenStyles"; // Ton fichier styles.ts renommé ici
+import styles from "../styles/IndexScreenStyles";
 
 const SecretContent: React.FC = () => {
   const router = useRouter();
@@ -36,12 +36,12 @@ const SecretContent: React.FC = () => {
     description: string;
     locked?: boolean;
   }) => (
-    <Pressable onPress={!locked ? onPress : undefined}>
+    <Pressable onPress={onPress}>
       {({ pressed }) => (
         <Box
           p={5}
           rounded="2xl"
-          bg={pressed && !locked ? bgPressed : bgDefault}
+          bg={pressed ? bgPressed : bgDefault}
           flexDirection="row"
           alignItems="center"
           shadow={locked ? 0 : 4}
@@ -54,14 +54,7 @@ const SecretContent: React.FC = () => {
               <Text color="white" fontSize="xl" fontWeight="bold">
                 {title}
               </Text>
-              {locked && (
-                <Icon
-                  as={Ionicons}
-                  name="lock-closed-outline"
-                  color="white"
-                  size="sm"
-                />
-              )}
+              {/* Plus de verrou ! */}
             </HStack>
             <Text color="gray.200" fontSize="sm" numberOfLines={2}>
               {description}
@@ -75,11 +68,10 @@ const SecretContent: React.FC = () => {
   return (
     <Box style={styles.container} flex={1}>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }} // Padding pour la navbar
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}
         showsVerticalScrollIndicator={false}
       >
         <Box style={styles.content}>
-          {/* Bloc de bienvenue stylisé */}
           <Box style={styles.welcomeBox}>
             <Text style={styles.welcomeTitle}>Bienvenue dans votre cave à vin</Text>
             <Text style={styles.welcomeSubtitle}>
@@ -87,12 +79,10 @@ const SecretContent: React.FC = () => {
             </Text>
           </Box>
 
-          {/* Anecdote */}
           <Box mb={6}>
             <AnecdoteVin />
           </Box>
 
-          {/* Boutons actions */}
           <VStack space={4}>
             <ActionButton
               onPress={() => router.push({ pathname: "/liste-cave" })}
@@ -115,13 +105,14 @@ const SecretContent: React.FC = () => {
             />
 
             <ActionButton
+              onPress={() => router.push({ pathname: "/cave-conseils" })}
               bgDefault="#525252"
               bgPressed="#6b6b6b"
               iconAs={Ionicons}
               iconName="bar-chart-outline"
               title="Statistiques"
-              description="Fonctionnalité en cours de développement"
-              locked={true}
+              description="Découvrez vos recommandations et vos accords mets-vins."
+              locked={false}
             />
           </VStack>
         </Box>

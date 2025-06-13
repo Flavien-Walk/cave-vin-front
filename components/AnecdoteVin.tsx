@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, ActivityIndicator, Alert } from "react-native";
+import { View, Button, ActivityIndicator } from "react-native";
 import { Text } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import anecdotesVin from "../data/anecdotes";
@@ -14,21 +14,15 @@ const AnecdoteVin: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Affiche la version courante au lancement
-    Alert.alert("DEBUG", `Version courante: ${CURRENT_APP_VERSION}`);
-
     fetch(LATEST_JSON_URL)
       .then(res => res.json())
       .then(data => {
-        // Debug : afficher la version reçue et la version courante
-        Alert.alert("DEBUG", `Reçu: version=${data.version} | courante=${CURRENT_APP_VERSION}`);
         if (data.version && data.version !== CURRENT_APP_VERSION) {
           setUpdateUrl(data.apkUrl);
         }
         setLoading(false);
       })
-      .catch((err) => {
-        Alert.alert("DEBUG ERROR", err.message || "erreur fetch");
+      .catch(() => {
         setLoading(false);
       });
   }, []);

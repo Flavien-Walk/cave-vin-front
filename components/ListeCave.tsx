@@ -130,7 +130,13 @@ const ListeCave: React.FC = () => {
     <NativeBaseProvider>
       <Box style={styles.container}>
         <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-          <Text style={styles.title}>Ma Cave à Vin</Text>
+         <Box style={styles.welcomeBox}>
+  <Text style={styles.welcomeTitle}>Ma Cave à Vin</Text>
+  <Text style={styles.welcomeSubtitle}>
+    Retrouvez, triez et gérez facilement toutes vos bouteilles 🍷
+  </Text>
+</Box>
+
 
           <Input
             placeholder="Rechercher..."
