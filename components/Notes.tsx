@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,  } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   Modal,
   Alert,
 } from "react-native";
+import { Dimensions } from "react-native";
+const { width } = Dimensions.get("window");
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/NotesStyles";
 import Navbar from "../components/Navbar";
@@ -128,10 +130,24 @@ const Notes: React.FC = () => {
 
   return (
     <View style={[styles.container, { flex: 1 }]}>
-      <Text style={styles.title}>Tous les vins notés</Text>
-      <Text style={styles.subtitle}>
-        Découvre les bouteilles ajoutées par les utilisateurs.
-      </Text>
+      <View
+  style={[
+    styles.welcomeBox,
+    {
+      alignSelf: "center",
+      width: width > 500 ? 500 : "90%",
+      minWidth: 250,
+      maxWidth: 500,
+    },
+  ]}
+>
+  <Text style={styles.welcomeTitle}>Tous les vins notés</Text>
+  <Text style={styles.welcomeSubtitle}>
+    Découvre les bouteilles ajoutées par les utilisateurs.
+  </Text>
+</View>
+
+
 
       {/* Barre de recherche */}
       <View style={styles.filterRow}>
@@ -247,46 +263,57 @@ const Notes: React.FC = () => {
 
       {/* MODAL pour ajouter/modifier note */}
       <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalBg}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Ajouter ou modifier ta note</Text>
-            <Text style={styles.modalWineName}>{selectedBottle?.nom}</Text>
-            <Text style={styles.modalLabel}>Note (étoiles)</Text>
-            <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 8 }}>
-              {[1, 2, 3, 4, 5].map((i) => (
-                <TouchableOpacity key={i} onPress={() => setNoteEtoile(i)}>
-                  <Ionicons name={i <= noteEtoile ? "star" : "star-outline"} size={32} color="#D7B440" />
-                </TouchableOpacity>
-              ))}
-            </View>
-            <Text style={styles.modalLabel}>Ton avis</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="Ex : Magnifique bouteille, tannins élégants..."
-              value={avis}
-              onChangeText={setAvis}
-              multiline
-            />
-            <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 14 }}>
-              <TouchableOpacity style={styles.modalBtnCancel} onPress={() => setModalVisible(false)}>
-                <Text style={styles.modalBtnTextCancel}>Annuler</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.modalBtn}
-                onPress={handleAddNote}
-                disabled={isSubmitting || !noteEtoile || !avis.trim()}
-              >
-                <Text style={styles.modalBtnText}>{isSubmitting ? "Envoi..." : "Enregistrer"}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+  visible={modalVisible}
+  animationType="slide"
+  transparent
+  onRequestClose={() => setModalVisible(false)}
+>
+  <View style={styles.modalBg}>
+    <View
+      style={[
+        styles.modalContent,
+        {
+          alignSelf: "center",
+          width: width > 500 ? 430 : "92%",
+          minWidth: 250,
+          maxWidth: 500,
+        },
+      ]}
+    >
+      <Text style={styles.modalTitle}>Ajouter ou modifier ta note</Text>
+      <Text style={styles.modalWineName}>{selectedBottle?.nom}</Text>
+      <Text style={styles.modalLabel}>Note (étoiles)</Text>
+      <View style={{ flexDirection: "row", justifyContent: "center", marginBottom: 8 }}>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <TouchableOpacity key={i} onPress={() => setNoteEtoile(i)}>
+            <Ionicons name={i <= noteEtoile ? "star" : "star-outline"} size={32} color="#D7B440" />
+          </TouchableOpacity>
+        ))}
+      </View>
+      <Text style={styles.modalLabel}>Ton avis</Text>
+      <TextInput
+        style={styles.modalInput}
+        placeholder="Ex : Magnifique bouteille, tannins élégants..."
+        value={avis}
+        onChangeText={setAvis}
+        multiline
+      />
+      <View style={{ flexDirection: "row", justifyContent: "flex-end", marginTop: 14 }}>
+        <TouchableOpacity style={styles.modalBtnCancel} onPress={() => setModalVisible(false)}>
+          <Text style={styles.modalBtnTextCancel}>Annuler</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.modalBtn}
+          onPress={handleAddNote}
+          disabled={isSubmitting || !noteEtoile || !avis.trim()}
+        >
+          <Text style={styles.modalBtnText}>{isSubmitting ? "Envoi..." : "Enregistrer"}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </View>
+</Modal>
+
 
       <Navbar />
     </View>

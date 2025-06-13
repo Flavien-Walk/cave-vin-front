@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, ScrollView } from "react-native";
+import { Pressable, ScrollView, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import {
   Box,
@@ -13,6 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Navbar from "../components/Navbar";
 import AnecdoteVin from "../components/AnecdoteVin";
 import styles from "../styles/IndexScreenStyles";
+
+const { width } = Dimensions.get("window");
 
 const SecretContent: React.FC = () => {
   const router = useRouter();
@@ -54,7 +56,6 @@ const SecretContent: React.FC = () => {
               <Text color="white" fontSize="xl" fontWeight="bold">
                 {title}
               </Text>
-              {/* Plus de verrou ! */}
             </HStack>
             <Text color="gray.200" fontSize="sm" numberOfLines={2}>
               {description}
@@ -72,9 +73,36 @@ const SecretContent: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         <Box style={styles.content}>
-          <Box style={styles.welcomeBox}>
-            <Text style={styles.welcomeTitle}>Bienvenue dans votre cave à vin</Text>
-            <Text style={styles.welcomeSubtitle}>
+          {/* Encadré Bienvenue responsive avec tes couleurs */}
+          <Box
+            alignSelf="center"
+            w={width > 500 ? 420 : "90%"}
+            minW={250}
+            borderRadius={20}
+            backgroundColor="#fffaf0" // couleur fond welcomeBox
+            py={5}
+            px={4}
+            mb={6}
+            shadow={3}
+            alignItems="center"
+          >
+            <Text
+              fontSize={26}
+              fontWeight="bold"
+              color="#6e3b3b"
+              textAlign="center"
+              letterSpacing={1}
+              textTransform="uppercase"
+              mb={1.5}
+            >
+              Bienvenue dans votre cave à vin
+            </Text>
+            <Text
+              fontSize={15}
+              color="#4b3832"
+              textAlign="center"
+              fontStyle="italic"
+            >
               Gérez, découvrez et savourez votre collection personnelle 🍇
             </Text>
           </Box>

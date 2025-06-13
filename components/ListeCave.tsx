@@ -1,10 +1,10 @@
 // components/ListeCave.tsx
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { ScrollView, Alert as RNAlert } from "react-native";
+import { ScrollView, Alert as RNAlert, Dimensions } from "react-native";
 import {
   Box, Text, VStack, HStack, Input, Select, CheckIcon, Divider, Button,
-  Modal, FormControl, NativeBaseProvider, Icon, AlertDialog
+  Modal, FormControl, NativeBaseProvider, Icon, AlertDialog, 
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import Navbar from "./Navbar";
@@ -42,6 +42,9 @@ const initialFilters = {
   consumeFilter: "all"
 };
 type FilterKey = keyof typeof initialFilters;
+
+const { width } = Dimensions.get("window");
+
 const ListeCave: React.FC = () => {
   const [bottles, setBottles] = useState<any[]>([]);
   const [filters, setFilters] = useState<typeof initialFilters>(initialFilters);
@@ -130,12 +133,23 @@ const ListeCave: React.FC = () => {
     <NativeBaseProvider>
       <Box style={styles.container}>
         <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-         <Box style={styles.welcomeBox}>
+         <Box
+  style={[
+    styles.welcomeBox,
+    {
+      alignSelf: "center",
+      width: width > 500 ? 500 : "90%",
+      minWidth: 250,
+      maxWidth: 500,
+    },
+  ]}
+>
   <Text style={styles.welcomeTitle}>Ma Cave à Vin</Text>
   <Text style={styles.welcomeSubtitle}>
     Retrouvez, triez et gérez facilement toutes vos bouteilles 🍷
   </Text>
 </Box>
+
 
 
           <Input

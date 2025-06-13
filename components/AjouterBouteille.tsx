@@ -5,6 +5,8 @@ import { ScrollView, Alert as RNAlert } from "react-native";
 import {
   Box, Text, Input, Select, CheckIcon, Button, VStack, HStack, Icon, NativeBaseProvider
 } from "native-base";
+import { Dimensions } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/AjouterBouteilleStyles";
 import Navbar from "./Navbar";
@@ -337,6 +339,8 @@ const CAVES = [
   { id: 4, name: "Cave 4", emplacements: ["Haut Derrière", "Haut Devant", "Milieu Haut Derrière", "Milieu Haut Devant", "Milieu Bas Derrière", "Milieu Bas Devant", "Bas Derrière", "Bas Devant", "Très Bas"] },
 ];
 
+const { width } = Dimensions.get("window");
+
 const AjouterBouteille: React.FC = () => {
   const [nom, setNom] = useState("");
   const [producteur, setProducteur] = useState("");
@@ -433,10 +437,21 @@ const AjouterBouteille: React.FC = () => {
     <NativeBaseProvider>
       <Box style={styles.container}>
         <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-          <Box style={styles.welcomeBox}>
+          <Box
+  style={[
+    styles.welcomeBox,
+    {
+      alignSelf: "center",
+      width: width > 500 ? 500 : "90%",
+      minWidth: 250,
+      maxWidth: 500,
+    },
+  ]}
+>
   <Text style={styles.welcomeTitle}>Ajouter une Bouteille</Text>
   <Text style={styles.welcomeSubtitle}>Complétez les champs pour enrichir votre cave</Text>
 </Box>
+
 
           <VStack space={4}>
             <Box>{renderLabel("wine-outline", "Nom du vin :")}<Input value={nom} onChangeText={setNom} backgroundColor="#fff8f0" placeholder="ex: Château Margaux" />{renderError("nom")}</Box>

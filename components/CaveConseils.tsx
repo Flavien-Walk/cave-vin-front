@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, FlatList } from "react-native";
+import { ScrollView, FlatList, Dimensions } from "react-native";
 import { Box, Text, VStack, Spinner, Button, Input } from "native-base";
 import styles from "../styles/CaveConseilsStyles";
 import Navbar from "../components/Navbar";
@@ -16,6 +16,8 @@ interface Bottle {
   couleur?: string;
   producteur?: string;
 }
+
+const { width } = Dimensions.get("window");
 
 const CaveConseils: React.FC = () => {
   const [recommandations, setRecommandations] = useState<Bottle[]>([]);
@@ -70,14 +72,31 @@ const CaveConseils: React.FC = () => {
     fetchRecommandations();
   }, []);
 
+  // Calcul width responsive pour le welcomeBox (max 500px, min 250px, sinon 90%)
+  const getWelcomeBoxWidth = () => {
+    if (width > 500) return 500;
+    if (width < 300) return 250;
+    return "90%";
+  };
+
   return (
     <Box style={styles.container} flex={1}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* --- ENCADRÉ DE TITRE --- */}
-        <Box style={styles.welcomeBox}>
+        {/* --- ENCADRÉ DE TITRE RESPONSIVE --- */}
+        <Box
+          style={[
+            styles.welcomeBox,
+            {
+              alignSelf: "center",
+              width: getWelcomeBoxWidth(),
+              minWidth: 250,
+              maxWidth: 500,
+            },
+          ]}
+        >
           <Text style={styles.welcomeTitle}>Découvrir et marier vos vins 🍷</Text>
           <Text style={styles.welcomeSubtitle}>
             Suggestions personnalisées & accords mets-vins pour sublimer votre cave
