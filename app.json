@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lef69.caveavin"
     },
     "android": {
       "adaptiveIcon": {
@@ -45,6 +46,7 @@
       "eas": {
         "projectId": "4af28938-6c6c-4a6b-b661-3ea9d944bf29"
       }
-    }
+    },
+    "owner": "flavien_leo"
   }
 }
