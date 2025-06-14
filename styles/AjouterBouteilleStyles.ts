@@ -62,37 +62,37 @@ const styles = StyleSheet.create({
   },
 
   welcomeBox: {
-  backgroundColor: "#6e3b3b",
-  borderRadius: 24,
-  paddingVertical: 28,
-  paddingHorizontal: 18,
-  marginTop: 28,
-  marginBottom: 18,
-  alignItems: "center",
-  shadowColor: "#000",
-  shadowOpacity: 0.12,
-  shadowRadius: 12,
-  shadowOffset: { width: 0, height: 2 },
-  elevation: 3,
-},
+    backgroundColor: "#6e3b3b",
+    borderRadius: 24,
+    paddingTop: 40,        // 👈 Décale bien le titre du haut de la box
+    paddingBottom: 28,     // 👈 Garde un padding bas agréable
+    paddingHorizontal: 18,
+    marginTop: 28,
+    marginBottom: 18,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
 
-welcomeTitle: {
-  color: "white",
-  fontSize: 24,
-  fontWeight: "bold",
-  textAlign: "center",
-  marginBottom: 7,
-  letterSpacing: 0.5,
-},
+  welcomeTitle: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 7,
+    letterSpacing: 0.5,
+  },
 
-welcomeSubtitle: {
-  color: "#f2e4e4",
-  fontSize: 14,
-  textAlign: "center",
-  fontStyle: "italic",
-  opacity: 0.92,
-},
-
+  welcomeSubtitle: {
+    color: "#f2e4e4",
+    fontSize: 14,
+    textAlign: "center",
+    fontStyle: "italic",
+    opacity: 0.92,
+  },
 });
 
 export default styles;
