@@ -72,7 +72,7 @@ const CaveConseils: React.FC = () => {
     fetchRecommandations();
   }, []);
 
-  // Calcul width responsive pour le welcomeBox (max 500px, min 250px, sinon 90%)
+  // Responsive width pour l'encadré d'accueil
   const getWelcomeBoxWidth = () => {
     if (width > 500) return 500;
     if (width < 300) return 250;
@@ -80,12 +80,13 @@ const CaveConseils: React.FC = () => {
   };
 
   return (
-    <Box style={styles.container} flex={1}>
+    <Box style={[styles.container, { backgroundColor: "#f8f1e4", flex: 1 }]}>
       <ScrollView
+        style={{ backgroundColor: "#f8f1e4" }}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 90 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* --- ENCADRÉ DE TITRE RESPONSIVE --- */}
+        {/* ENCADRÉ TITRE */}
         <Box
           style={[
             styles.welcomeBox,
@@ -94,6 +95,7 @@ const CaveConseils: React.FC = () => {
               width: getWelcomeBoxWidth(),
               minWidth: 250,
               maxWidth: 500,
+              backgroundColor: "#fffaf0", // FOND OPAQUE !
             },
           ]}
         >
@@ -102,10 +104,9 @@ const CaveConseils: React.FC = () => {
             Suggestions personnalisées & accords mets-vins pour sublimer votre cave
           </Text>
         </Box>
-        {/* ------------------------ */}
 
         {/* Bloc Recommandations */}
-        <Box style={styles.bloc}>
+        <Box style={[styles.bloc, { backgroundColor: "#fffaf0" }]}>
           <Text style={styles.sousTitre}>Suggestions à découvrir</Text>
           {loadingReco && <Spinner style={styles.spinner} />}
           {recoError ? <Text style={styles.errorText}>{recoError}</Text> : null}
@@ -113,7 +114,7 @@ const CaveConseils: React.FC = () => {
             data={recommandations}
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
-              <Box style={styles.card}>
+              <Box style={[styles.card, { backgroundColor: "#f8f1e4" }]}>
                 <Text style={{ fontWeight: "bold", color: "#6e3b3b" }}>
                   {item.nom} {item.annee && `(${item.annee})`}
                 </Text>
@@ -133,7 +134,7 @@ const CaveConseils: React.FC = () => {
         </Box>
 
         {/* Bloc Accord mets-vin */}
-        <Box style={styles.bloc}>
+        <Box style={[styles.bloc, { backgroundColor: "#fffaf0" }]}>
           <Text style={styles.sousTitre}>Accord mets-vin</Text>
           <VStack space={3}>
             <Input
@@ -141,6 +142,7 @@ const CaveConseils: React.FC = () => {
               value={plat}
               onChangeText={setPlat}
               style={styles.input}
+              backgroundColor="#fff"
             />
             <Button style={styles.button} onPress={fetchSuggestions} isDisabled={!plat || loadingSug}>
               <Text style={styles.buttonText}>Trouver un vin</Text>
@@ -152,7 +154,7 @@ const CaveConseils: React.FC = () => {
             data={suggestions}
             keyExtractor={item => item._id}
             renderItem={({ item }) => (
-              <Box style={styles.card}>
+              <Box style={[styles.card, { backgroundColor: "#f8f1e4" }]}>
                 <Text style={{ fontWeight: "bold", color: "#6e3b3b" }}>
                   {item.nom} {item.annee && `(${item.annee})`}
                 </Text>
