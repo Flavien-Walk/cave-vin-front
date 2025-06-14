@@ -436,7 +436,7 @@ const AjouterBouteille: React.FC = () => {
   return (
     <NativeBaseProvider>
       <Box style={styles.container}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100, paddingTop: 40 }}>
           <Box
   style={[
     styles.welcomeBox,

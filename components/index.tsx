@@ -16,58 +16,55 @@ import styles from "../styles/IndexScreenStyles";
 
 const { width } = Dimensions.get("window");
 
-// Interface pour typer proprement les props de ActionButton
-interface ActionButtonProps {
-  onPress?: () => void;
-  bgDefault: string;
-  bgPressed: string;
-  iconAs: any;
-  iconName: string;
-  title: string;
-  description: string;
-  locked?: boolean;
-}
-
-const ActionButton: React.FC<ActionButtonProps> = ({
-  onPress,
-  bgDefault,
-  bgPressed,
-  iconAs,
-  iconName,
-  title,
-  description,
-  locked = false,
-}) => (
-  <Pressable onPress={onPress}>
-    {({ pressed }) => (
-      <Box
-        p={5}
-        rounded="2xl"
-        bg={pressed ? bgPressed : bgDefault}
-        flexDirection="row"
-        alignItems="center"
-        shadow={locked ? 0 : 4}
-        mb={4}
-        opacity={locked ? 0.5 : 1}
-      >
-        <Icon as={iconAs} name={iconName} color="white" size="xl" mr={4} />
-        <VStack flexShrink={1}>
-          <HStack alignItems="center" space={2}>
-            <Text color="white" fontSize="xl" fontWeight="bold">
-              {title}
-            </Text>
-          </HStack>
-          <Text color="gray.200" fontSize="sm" numberOfLines={2}>
-            {description}
-          </Text>
-        </VStack>
-      </Box>
-    )}
-  </Pressable>
-);
-
 const SecretContent: React.FC = () => {
   const router = useRouter();
+
+  const ActionButton = ({
+    onPress,
+    bgDefault,
+    bgPressed,
+    iconAs,
+    iconName,
+    title,
+    description,
+    locked = false,
+  }: {
+    onPress?: () => void;
+    bgDefault: string;
+    bgPressed: string;
+    iconAs: any;
+    iconName: string;
+    title: string;
+    description: string;
+    locked?: boolean;
+  }) => (
+    <Pressable onPress={onPress}>
+      {({ pressed }) => (
+        <Box
+          p={5}
+          rounded="2xl"
+          bg={pressed ? bgPressed : bgDefault}
+          flexDirection="row"
+          alignItems="center"
+          shadow={locked ? 0 : 4}
+          mb={4}
+          opacity={locked ? 0.5 : 1}
+        >
+          <Icon as={iconAs} name={iconName} color="white" size="xl" mr={4} />
+          <VStack flexShrink={1}>
+            <HStack alignItems="center" space={2}>
+              <Text color="white" fontSize="xl" fontWeight="bold">
+                {title}
+              </Text>
+            </HStack>
+            <Text color="gray.200" fontSize="sm" numberOfLines={2}>
+              {description}
+            </Text>
+          </VStack>
+        </Box>
+      )}
+    </Pressable>
+  );
 
   return (
     <Box style={styles.container} flex={1}>
@@ -76,13 +73,13 @@ const SecretContent: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         <Box style={styles.content}>
-          {/* Encadré Bienvenue responsive */}
+          {/* Encadré Bienvenue responsive avec tes couleurs */}
           <Box
             alignSelf="center"
             w={width > 500 ? 420 : "90%"}
             minW={250}
             borderRadius={20}
-            backgroundColor="#fffaf0"
+            backgroundColor="#fffaf0" // couleur fond welcomeBox
             py={5}
             px={4}
             mb={6}

@@ -6,7 +6,7 @@ import anecdotesVin from "../data/anecdotes";
 import styles from "../styles/AnecdoteVinStyles";
 import * as Linking from "expo-linking";
 
-const CURRENT_APP_VERSION = "1.0.0"; // À mettre à jour à chaque release
+const CURRENT_APP_VERSION = "1.0.0";
 const LATEST_JSON_URL = "https://cave-vin-back.onrender.com/latest.json";
 
 const AnecdoteVin: React.FC = () => {
@@ -39,7 +39,6 @@ const AnecdoteVin: React.FC = () => {
   }
 
   if (updateUrl) {
-    // Affiche l'alerte mise à jour à la place de l'anecdote
     return (
       <View style={styles.container}>
         <Text style={{ color: "#af7d5d", fontWeight: "bold", fontSize: 16, marginBottom: 8 }}>
@@ -48,7 +47,7 @@ const AnecdoteVin: React.FC = () => {
         <View style={[styles.alertBox, { backgroundColor: "#fff3cd", borderColor: "#ffeeba" }]}>
           <View style={styles.row}>
             <Ionicons name="alert-circle-outline" size={22} color="#af7d5d" style={styles.icon} />
-            <Text style={[styles.text, { color: "#af7d5d", fontWeight: "bold" }]}>
+            <Text style={[styles.text, { color: "#af7d5d", fontWeight: "bold", flex: 1, flexShrink: 1 }]}>
               Nouvelle version disponible !
             </Text>
           </View>
@@ -65,7 +64,7 @@ const AnecdoteVin: React.FC = () => {
     );
   }
 
-  // Sinon, affiche une anecdote aléatoire comme d’habitude
+  // Anecdote aléatoire
   const randomIndex = Math.floor(Math.random() * anecdotesVin.length);
   const anecdote = anecdotesVin[randomIndex];
 
@@ -77,7 +76,12 @@ const AnecdoteVin: React.FC = () => {
       <View style={styles.alertBox}>
         <View style={styles.row}>
           <Ionicons name="information-circle-outline" size={20} style={styles.icon} />
-          <Text style={styles.text}>{anecdote}</Text>
+          <Text
+            style={[styles.text, { flex: 1, flexShrink: 1 }]} // Ajoute ça pour wrap
+            // numberOfLines={5} // <-- Décommente si tu veux tronquer à 5 lignes
+          >
+            {anecdote}
+          </Text>
         </View>
       </View>
     </View>
