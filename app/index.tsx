@@ -1,9 +1,5 @@
-// index.tsx
-import React from "react";
-import Index from "../components"; 
+import { Redirect } from 'expo-router';
 
-const App: React.FC = () => {
-  return <Index />;
-};
-
-export default App;
+export default function Index() {
+  return <Redirect href="/(tabs)" />;
+}
